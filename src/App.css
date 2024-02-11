@@ -1,3 +1,6 @@
+@tailwind components;
+@tailwind utilities;
+
 .App {
   text-align: center;
 }
@@ -32,7 +35,27 @@
   from {
     transform: rotate(0deg);
   }
+
   to {
     transform: rotate(360deg);
   }
+}
+
+.active div{
+  background-color: rgb(255, 132, 0) !important;
+  color: white;
+}
+
+.m-576c9d4 {
+  border-style: none;
+  bottom: 0;
+}
+
+.m-4e7aa4fd {
+  border-bottom: 0;
+}
+
+.m-8fb7ebe7 {
+  border-style: none !important;
+  background-color: rgb(243 244 246 / var(--tw-bg-opacity)) !important; 
 }
