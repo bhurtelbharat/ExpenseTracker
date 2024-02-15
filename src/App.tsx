@@ -14,7 +14,6 @@ function App() {
 
   return (
     <MainContainer>
-      <Navbar />
       <AppRoutes />
     </MainContainer>
   )

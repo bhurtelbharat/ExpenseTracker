@@ -1,11 +1,12 @@
 import LandingMan from "../assets/LandingMan.svg"
 import LandingCoins from "../assets/Landing-Coins.svg"
 import { Button, Grid } from "@mantine/core"
-
+import { Navbar } from "../utils/NavBar"
 
 export const LandingPage = () => {
     return (
         <>
+            <Navbar />
             <section className="h-screen w-full">
                 <div className="image-area position-relative flex justify-between absolute top-none left-none w-full h-full items-end px-md">
                     <img src={LandingMan} alt="Working Man" />

@@ -2,9 +2,10 @@ import { useState } from "react";
 import { CardLayout } from "../common/Card";
 import { Image } from "@mantine/core";
 import { Trash, Pencil, CirclePlus } from "tabler-icons-react";
-import { Card, Grid } from '@mantine/core';
+import { Card, Grid, Modal, TextInput } from '@mantine/core';
 
 export const Features = () => {
+    const [openFeatureModal, setOpenFeatureModal] = useState(false)
     const featuresData = [
         {
             title: "Feature1",
@@ -15,48 +16,39 @@ export const Features = () => {
 
     const [features, setFeatures] = useState();
 
-    return <div className="flex justify-between">
+    return <Grid className="flex justify-between">
         {
-            featuresData.map((feature, index) => <div className="w-6/12 h-24" key={index}>
-                {/* <CardLayout
-                leading={<Image src={feature.image} />}
-                content={<div>
-                    <div className="p-1">
-                        <div className="font-semibold">{feature.title}</div>
-                        {feature.description}
-                    </div>
-                </div>}
-                actions={<div className="flex justify-end">
-                    <Trash /><Pencil />
-                </div>}
-                trailing={false}
-
-            /> */}
-                <Card padding="lg" withBorder className="m-sm h-full">
-                    <Grid>
-                        <Grid.Col span={4}>
-                            <Image src={feature.image} />
-                        </Grid.Col>
-                        <Grid.Col span={8}>
-                            <div>
-                                <div className="p-1" >
-                                    <div className="font-semibold text-sm">{feature.title}</div>
-                                    <div className="text-xs">{feature.description}</div>
+            featuresData.map((feature, index) =>
+                <Grid.Col span={6} key={index}>
+                    <Card padding="lg" withBorder className="w-full h-full">
+                        <Grid>
+                            <Grid.Col span={4}>
+                                <Image src={feature.image} />
+                            </Grid.Col>
+                            <Grid.Col span={8}>
+                                <div>
+                                    <div className="p-1" >
+                                        <div className="font-semibold text-sm">{feature.title}</div>
+                                        <div className="text-xs">{feature.description}</div>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex justify-end">
-                                <Trash /><Pencil />
-                            </div>
-                        </Grid.Col>
-                    </Grid>
-                </Card>
-            </div>
+                                <div className="flex justify-end">
+                                    <Trash /><Pencil />
+                                </div>
+                            </Grid.Col>
+                        </Grid>
+                    </Card>
+                </Grid.Col>
             )
         }
-        <div className="w-6/12 h-24">
-            <Card padding="lg" withBorder className="m-sm h-full items-center justify-center">
+        <Grid.Col span={6} className="h-24">
+            <div className="w-full h-full flex items-center border-dashed border-2 justify-center pointer" onClick={() => setOpenFeatureModal(true)}>
                 <div className="flex font-semibold text-sm"><span>{<CirclePlus />}</span>Add Feature</div>
-            </Card>
-        </div>
-    </div>
+            </div>
+        </Grid.Col>
+
+        <Modal opened={openFeatureModal} onClose={() => setOpenFeatureModal(false)} title="Feature">
+            
+        </Modal>
+    </Grid>
 }
