@@ -13,7 +13,7 @@ export const DashboardSidebar = () => {
     { icon: <LayoutDashboard />, label: 'Dashboard', path: "/dashboard" },
     { icon: <Users />, label: 'Users', path: "/dashboard/users" },
     { icon: <ScreenShare />, label: 'Web Details', path: "/dashboard/webdetails" },
-    { icon: <FileText />, label: 'Complaints', path: "/dashboard/complains" },
+    { icon: <FileText />, label: 'Complaints', path: "/dashboard/complaints" },
     { icon: <FileText />, label: 'Queries', path: "/dashboard/queries" },
   ]
 

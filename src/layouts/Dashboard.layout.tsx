@@ -37,7 +37,7 @@ export function DashboardLayout() {
           <Route path="" element={<DashboardStats />} />
           <Route path="/users" element={<Userslist />} />
           <Route path="/webdetails" element={<WebDetails/>} />
-          <Route path="/complains" element={<Complaints/>} />
+          <Route path="/complaints" element={<Complaints/>} />
           <Route path="/queries" element={<Queries/>} />
         </Routes>
       </AppShell.Main>
