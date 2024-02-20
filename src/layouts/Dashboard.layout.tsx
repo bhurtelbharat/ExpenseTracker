@@ -1,13 +1,13 @@
 import { AppShell, Burger, Group, Skeleton, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { DashboardStats } from '../../components/modules/dashboard/DashboardStats';
-import { DashboardSidebar } from '../../components/modules/dashboard/DashboardSidebar';
-import { Userslist } from '../../components/modules/dashboard/components/Users.List';
-import logo from "../../assets/Logo.svg"
+import { DashboardStats } from '../components/modules/dashboard/DashboardStats';
+import { DashboardSidebar } from '../components/modules/dashboard/DashboardSidebar';
+import { Userslist } from '../components/modules/dashboard/components/Users.List';
+import logo from "../assets/Logo.svg"
 import { Routes, Route } from 'react-router';
-import { WebDetails } from '../../components/modules/dashboard/components/Web.Details';
-import { Complaints } from '../../components/modules/dashboard/components/Complaints.list';
-import { Queries } from '../../components/modules/dashboard/components/Queries.list';
+import { WebDetails } from '../components/modules/dashboard/components/Web.Details';
+import { Complaints } from '../components/modules/dashboard/components/Complaints.list';
+import { Queries } from '../components/modules/dashboard/components/Queries.list';
 
 export function DashboardLayout() {
   const [opened, { toggle }] = useDisclosure();
