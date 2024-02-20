@@ -1,29 +1,63 @@
-import { useState } from "react";
+import { useState,useEffect } from "react";
 import { CardLayout } from "../common/Card";
-import { Image } from "@mantine/core";
-import { Trash, Pencil, CirclePlus } from "tabler-icons-react";
-import { Card, Grid, Modal, TextInput } from '@mantine/core';
+import { Trash, Pencil, CirclePlus, Photo } from "tabler-icons-react";
+import { Card, Grid, Modal, TextInput, GridCol, Button, Image, Textarea, ActionIcon } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { FeatureModal } from "../../../partials/FeatureModal";
+import { UploadImage } from "../../../../API/Features/UploadImage";
+import { GetFeatures } from "../../../../API/Features/GetFeatures";
+
+
 
 export const Features = () => {
-    const [openFeatureModal, setOpenFeatureModal] = useState(false)
-    const featuresData = [
-        {
-            title: "Feature1",
-            description: "This is the first feature. This is the first feature. This is the first feature. This is the first feature. This is the first feature. ",
-            image: "https://cdn.pixabay.com/photo/2017/09/21/19/06/woman-2773007_1280.jpg"
-        }
-    ]
+    const [openFeatureModal, setOpenFeatureModal] = useState(false);
+    const [imageName, setImageName] = useState(null);
+    const [selectedData, setSelectedData] = useState(null);
 
-    const [features, setFeatures] = useState();
+    const form = useForm({
+        initialValues: {
+            title: '',
+            description: '',
+            img: ''
+        },
+    });
+
+    const SetImage = (files: any) => {
+        const selectedFile = files[0];
+        form.setFieldValue('img', selectedFile);
+    }
+
+    const loadFeatures = async () =>{
+        const res = await GetFeatures();
+        setFeatures(res.data);
+    }
+
+    const SaveImage = async (files: any) => {
+        const res = await UploadImage(form.values.img);
+    }
+
+    const editFeature = (feature:any) =>{
+        form.setFieldValue ('title',feature.title);
+        form.setFieldValue ('description', feature.description);
+        //form.setFieldValue ('img', feature.img);
+
+        setOpenFeatureModal(true);
+    }
+
+    const [features, setFeatures] = useState([]);
+
+    useEffect(()=>{
+        loadFeatures();
+    },[])
 
     return <Grid className="flex justify-between">
         {
-            featuresData.map((feature, index) =>
+            features.map((feature:any, index) =>
                 <Grid.Col span={6} key={index}>
                     <Card padding="lg" withBorder className="w-full h-full">
                         <Grid>
                             <Grid.Col span={4}>
-                                <Image src={feature.image} />
+                                <Image src={feature.img} />
                             </Grid.Col>
                             <Grid.Col span={8}>
                                 <div>
@@ -33,7 +67,12 @@ export const Features = () => {
                                     </div>
                                 </div>
                                 <div className="flex justify-end">
-                                    <Trash /><Pencil />
+                                    <ActionIcon variant="transparent" onClick={(event) => console.log("Clicked") }>
+                                        <Trash />
+                                    </ActionIcon>
+                                    <ActionIcon aria-label="Edit" variant="transparent" onClick={(event) => editFeature(feature)}>
+                                        <Pencil />
+                                    </ActionIcon>
                                 </div>
                             </Grid.Col>
                         </Grid>
@@ -48,7 +87,7 @@ export const Features = () => {
         </Grid.Col>
 
         <Modal opened={openFeatureModal} onClose={() => setOpenFeatureModal(false)} title="Feature">
-            
+            <FeatureModal setOpenFeatureModal={setOpenFeatureModal} form={form} SetImage={SetImage}/>
         </Modal>
     </Grid>
 }

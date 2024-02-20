@@ -37,7 +37,7 @@ export const WebDetails = () => {
                         <Grid className="py-md w-full">
                             {carddata.map((data: any, index: number) => (
                                 <Grid.Col span={6} key={index} >
-                                    <div className="w-full bg-gray-100 rounded-lg">
+                                    <div className="w-full bg-gray-100 rounded-lg landingInput">
                                         <span className="text-xs text-gray-400 px-xs w-full">{data.title}</span>
                                         <Input value={data.text} className="h-8"/>
                                     </div>

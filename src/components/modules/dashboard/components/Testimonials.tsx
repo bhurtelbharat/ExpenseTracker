@@ -1,33 +1,57 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { CardLayout } from "../common/Card";
-import { Image } from "@mantine/core";
 import { Trash, Pencil, CirclePlus } from "tabler-icons-react";
-import { Card, Grid, ActionIcon } from '@mantine/core';
+import {Image, Card, Grid, Modal, ActionIcon } from '@mantine/core';
+import { useForm } from '@mantine/form';
+import { TestimonialModal } from "../../../partials/TestimonialModalContent";
+import { UploadImage } from "../../../../API/Features/UploadImage";
+import { GetTestimonials } from "../../../../API/Testimonials/GetTestimonials";
 
 export const Testimonials = () => {
-    const featuresData = [
-        {
-            title: "Testimonial1",
-            description: "This is the first testimonial. This is the first testimonial. This is the first testimonial. This is the first testimonial. This is the first testimonial. ",
-            image: "https://cdn.pixabay.com/photo/2017/09/21/19/06/woman-2773007_1280.jpg"
-        }
-    ]
+    const [openTestimonialModal, setOpenTestimonialModal] = useState(false);
 
-    const [features, setFeatures] = useState();
+    const loadTestimonials = async () =>{
+        const res = await GetTestimonials();
+        setTestimonials(res.data);
+    }
 
-    return <div className="flex justify-between">
+    const form = useForm({
+        initialValues: {
+            title: '',
+            designation: '',
+            content: '',
+            img: ''
+        },
+    });
+
+    const SetImage = (files: any) => {
+        const selectedFile = files[0];
+        form.setFieldValue('img', selectedFile);
+    }
+
+    const SaveImage = async (files: any) => {
+        const res = await UploadImage(form.values.img);
+    }
+
+    const [testimonials, setTestimonials] = useState([]);
+    
+    useEffect(()=>{
+        loadTestimonials();
+    },[])
+
+    return <Grid className="flex justify-between">
         {
-            featuresData.map((feature, index) => <div className="w-6/12 h-24" key={index}>
-                <Card padding="lg" withBorder className="m-sm h-full">
+            testimonials.map((testimonial:any, index) => <Grid.Col span={6} key={index}>
+                <Card padding="lg" withBorder className="w-full h-full">
                     <Grid>
                         <Grid.Col span={4}>
-                            <Image src={feature.image} />
+                            <Image src={testimonial.img} className="flex object-fill"/>
                         </Grid.Col>
                         <Grid.Col span={8}>
                             <div>
                                 <div className="p-1" >
-                                    <div className="font-semibold text-sm">{feature.title}</div>
-                                    <div className="text-xs">{feature.description}</div>
+                                    <div className="font-semibold text-sm">{testimonial.title}</div>
+                                    <div className="text-xs">{testimonial.description}</div>
                                 </div>
                             </div>
                             <div className="flex justify-end">
@@ -41,13 +65,17 @@ export const Testimonials = () => {
                         </Grid.Col>
                     </Grid>
                 </Card>
-            </div>
+            </Grid.Col>
             )
         }
-        <div className="w-6/12 h-24">
-            <Card padding="lg" withBorder className="m-sm h-full items-center justify-center">
+        <Grid.Col span={6} className="h-24">
+            <Card padding="lg" className="w-full h-full flex items-center border-dashed border-2 justify-center pointer" onClick={() => setOpenTestimonialModal(true)}>
                 <div className="flex font-semibold text-sm"><span>{<CirclePlus />}</span>Add Testimonial</div>
             </Card>
-        </div>
-    </div>
+        </Grid.Col>
+
+        <Modal opened={openTestimonialModal} onClose={() => setOpenTestimonialModal(false)} title="Testimonial">
+            <TestimonialModal setOpenTestimonialModal={setOpenTestimonialModal} form={form} SetImage={SetImage}  />
+        </Modal>
+    </Grid>
 }

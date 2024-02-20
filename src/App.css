@@ -46,22 +46,37 @@
   color: white;
 }
 
-/* .m-576c9d4 {
+/* .mantine-Tabs-list {
   border-style: none;
   bottom: 0;
 }
 
 .m-4e7aa4fd {
   border-bottom: 0;
-} */
+}  */
 
-/* .m-8fb7ebe7 {
-  border-style: none !important;
-  background-color: rgb(243 244 246 / var(--tw-bg-opacity)) !important; 
-} */
+ .landingInput
+ {
+  .mantine-Input-input {
+    border-style: none !important;
+    background-color: rgb(243 244 246 / var(--tw-bg-opacity)) !important; 
+  } 
+ } 
 
 .mantine-Grid-inner{
   max-width: 100% !important;
   margin: 0 !important;
   height:100%;
 }
+
+.mantine-Dropzone-root{
+  width: 100px; /* Adjust the width and height as needed */
+  height: 100px;
+  border: 2px dashed #ccc;
+  border-radius: 50% !important; /* Make the border circular */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+}
+

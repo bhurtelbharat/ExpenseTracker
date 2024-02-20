@@ -1,5 +1,5 @@
 import { GetRequest } from "../../plugins/https"
 
-export const GetFeatures =(params: any) =>{
+export const GetFeatures =() =>{
     return GetRequest('feature')
 }
