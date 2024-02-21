@@ -1,7 +1,7 @@
 import { APIAuthenticateuser } from "../../API/Authorization/Authentication"
 import baseAxios from "../../plugins/axios"
 import { setTokenToLocalStorage, setUserToLocalStorage } from "../../utils/helpers/token.helper"
-import { SET_TOKEN, SET_USER, SET_AUTHENTICATED } from "./actionTypes"
+import { SET_TOKEN, SET_USER, SET_AUTHENTICATED, LOGOUT_USER } from './actionTypes'
 
 export const setUser = (data:any)=>{
      return {
@@ -32,7 +32,7 @@ const setAuthorizationHeader = (token:string)=> {
 }
 
 
-const deleteAuthorizationHeader = (token:string)=> {
+const deleteAuthorizationHeader = ()=> {
     delete baseAxios.defaults.headers.common.Authorization;
 }
 
@@ -43,12 +43,17 @@ export const authenticateAdminUser =({username, password}: {username: string, pa
         dispatch(setToken(res.data.accessToken));
         dispatch(setUser(res.data.user));
         // dispatch(setIsAuthenticated(true));
-    
         setTokenToLocalStorage(res.data.accessToken)
         setAuthorizationHeader(res.data.accessToken)
         setUserToLocalStorage(res.data.user)
     }
-    console.log(res);
 }
 
+export const logout =()=>{
+    localStorage.clear();
+    deleteAuthorizationHeader();
+    return {
+        type: LOGOUT_USER
+    }
+}
 

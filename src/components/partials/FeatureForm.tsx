@@ -1,15 +1,16 @@
 import { Dropzone, IMAGE_MIME_TYPE } from '@mantine/dropzone';
 import { Grid, TextInput, GridCol, Textarea, Button } from '@mantine/core';
 import { Photo } from "tabler-icons-react";
+import { getImageUrl } from '../../utils/helpers/imageUrlHandler'
 
-export const FeatureModal = (props: any) => {
+export const FeatureForm = (props: any) => {
     const { setOpenFeatureModal, form,SetImage } = props
     return <form className="w-full">
         <Grid>
             <Grid.Col span={4} className="flex items-center">
                 <Dropzone onDrop={(files: any) => SetImage(files)} maxSize={5 * 1024 ** 2} accept={IMAGE_MIME_TYPE} className="rounded-full border-dashed border-gray-300" >
                     {
-                       form.values.img !=="" ? <img src={URL.createObjectURL(form.values.img)} alt="Feature" className='object-fill h-full w-full'/> : <Photo/>
+                       form.values.img !=="" ? <img src={typeof form.values.img === 'string'? getImageUrl(form.values.img) : URL.createObjectURL(form.values.img)} alt="Feature" className='object-fill h-full w-full'/> : <Photo/>
                     }
                 </Dropzone>
             </Grid.Col>
