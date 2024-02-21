@@ -3,15 +3,16 @@ import {
     BASE_URL,
 } from '../config/baseURLs'
 import  store  from '../store/store'
+import { getTokenFromStorage } from '../utils/helpers/token.helper';
 // import { logoutUser } from '../store/modules/auth/actions'
 
 const baseAxios: AxiosInstance = axios.create()
 
 baseAxios.defaults.baseURL = BASE_URL;
 
-// if (isAuthenticated()) {
-//     baseAxios.defaults.headers.common.Authorization = `Bearer ${getToken()}`
-// }
+if (!!getTokenFromStorage()) {
+    baseAxios.defaults.headers.common.Authorization = `Bearer ${getTokenFromStorage()}`
+}
 
 // Add a request interceptor
 baseAxios.interceptors.request.use(

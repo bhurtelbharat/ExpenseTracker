@@ -1,7 +1,8 @@
 import { APIAuthenticateuser } from "../../API/Authorization/Authentication"
 import baseAxios from "../../plugins/axios"
-import { setTokenToLocalStorage, setUserToLocalStorage } from "../../utils/helpers/token.helper"
-import { SET_TOKEN, SET_USER, SET_AUTHENTICATED } from "./actionTypes"
+import { clearLocalStorage, setTokenToLocalStorage, setUserToLocalStorage } from "../../utils/helpers/token.helper"
+import store from "../store"
+import { SET_TOKEN, SET_USER, SET_AUTHENTICATED, LOGOUT_USER } from "./actionTypes"
 
 export const setUser = (data:any)=>{
      return {
@@ -24,6 +25,12 @@ export const setToken = (data:any)=>{
      }
 }
 
+export const setLogout = ()=>{
+     return {
+        type: LOGOUT_USER,
+     }
+}
+
 const setAuthorizationHeader = (token:string)=> {
     baseAxios.defaults.headers.common = {
         ...baseAxios.defaults.headers.common,
@@ -32,7 +39,7 @@ const setAuthorizationHeader = (token:string)=> {
 }
 
 
-const deleteAuthorizationHeader = (token:string)=> {
+const deleteAuthorizationHeader = ()=> {
     delete baseAxios.defaults.headers.common.Authorization;
 }
 
@@ -41,14 +48,20 @@ export const authenticateAdminUser =({username, password}: {username: string, pa
 
     if(res.statusCode === 201){
         dispatch(setToken(res.data.accessToken));
-        dispatch(setUser(res.data.user));
-        // dispatch(setIsAuthenticated(true));
+        dispatch(setUser(res.data.user?.length > 0 ? res.data.user[0]: null));
+        dispatch(setIsAuthenticated(true));
     
         setTokenToLocalStorage(res.data.accessToken)
         setAuthorizationHeader(res.data.accessToken)
-        setUserToLocalStorage(res.data.user)
+        setUserToLocalStorage(res.data.user[0])
     }
     console.log(res);
+}
+
+export const removeSession =() => async (dispatch:any)=> {
+    await deleteAuthorizationHeader();
+    dispatch(setLogout());
+    clearLocalStorage();
 }
 
 

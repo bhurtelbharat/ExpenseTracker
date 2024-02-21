@@ -4,9 +4,12 @@ import { Eye } from 'tabler-icons-react';
 import { TableLayout } from "../common/Table";
 import { TabsLayout } from "../common/Tabs";
 import { GetAllUsers } from "../../../../API/Users/GetAllUsers";
+import { setUserToLocalStorage } from "../../../../utils/helpers/token.helper";
 
 
 export const Userslist = () => {
+    const [Users, setUser] = useState([]);
+    
     const tabs = [
         { label: "All", value: "all" },
         { label: "Active", value: "active" },

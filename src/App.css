@@ -80,3 +80,10 @@
   overflow: hidden;
 }
 
+
+
+.feature-modal{
+  .mantine-Dropzone-root{
+    padding: 4px;
+  }
+}
