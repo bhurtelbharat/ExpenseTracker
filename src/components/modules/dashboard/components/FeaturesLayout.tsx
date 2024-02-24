@@ -8,6 +8,10 @@ import { UploadImage } from '../../../../API/Features/UploadImage'
 import { GetFeatures } from '../../../../API/Features/GetFeatures'
 import { getImageUrl, onErrorImage } from '../../../../utils/helpers/imageUrlHandler'
 import { modals } from '@mantine/modals';
+import { DeleteTestimonials } from '../../../../API/Testimonials/GetTestimonials'
+import { errorNotification, successNotification } from '../../../../utils/helpers/notifications'
+import { AddFeatures } from '../../../../API/Features/AddFeatures'
+import { DeleteFeature } from '../../../../API/Features/DeleteFeature'
 
 export const Features = () => {
     const [openFeatureModal, setOpenFeatureModal] = useState(false)
@@ -32,26 +36,49 @@ export const Features = () => {
         setFeatures(res.data)
     }
 
-    const SaveImage = async (files: any) => {
-        const res = await UploadImage(form.values.img)
+    const SaveFeature = async () => {
+        if (form.values.img === "" || form.values.img === null) {
+            return;
+        }
+        const formData = new FormData();
+        formData.append('file', form.values.img)
+        const res = await UploadImage(formData);
+        console.log(res);
+
+        const imgfile = res.data.filename;
+
+        const respData = await AddFeatures({
+            img: imgfile,
+            title: form.values.title,
+            description: form.values.description
+        });
+        console.log(respData);
     }
 
     const editFeature = (feature: any) => {
-        form.setFieldValue('title', feature.title)
-        form.setFieldValue('description', feature.description)
-        //form.setFieldValue ('img', feature.img);
+        form.setFieldValue('title', feature.title);
+        form.setFieldValue('description', feature.description);
+        form.setFieldValue ('img', feature.img);
 
-        setOpenFeatureModal(true)
+        setOpenFeatureModal(true);
     }
 
-    const [features, setFeatures] = useState([])
+    const [features, setFeatures] = useState([]);
+
+    const showFeatureModal = () => {
+        form.reset();
+        setOpenFeatureModal(true);
+    }
+
+
+
 
     useEffect(() => {
         loadFeatures()
     }, []);
 
 
-    const openDeleteConfirmationModal = () => modals.openConfirmModal({
+    const openDeleteConfirmationModal = (id:number) => modals.openConfirmModal({
         title: 'Please confirm your action',
         children: (
             <div>
@@ -60,7 +87,21 @@ export const Features = () => {
         ),
         labels: { confirm: 'Confirm', cancel: 'Cancel' },
         onCancel: () => console.log('Cancel'),
-        onConfirm: () => console.log('Confirmed'),
+        onConfirm:async () => {
+           try{
+               await DeleteFeature(id);
+               await loadFeatures();
+               successNotification({
+                   title: 'Success',
+                   message:'Feature dele'
+               })
+           }catch(e){
+               errorNotification({
+                   title: 'Error',
+                   message:'Cannot delete f'
+               })
+           }
+        },
     });
 
     return <Grid className="flex justify-between">
@@ -70,34 +111,31 @@ export const Features = () => {
                     <Card padding="lg" withBorder className="w-full h-full">
                         <Grid>
                             <Grid.Col span={4}>
-                                <img src={getImageUrl(feature.img)} onError={onErrorImage} className={'object-contain'}
-                                     style={{ aspectRatio: '1' }} />
+                                <img src={getImageUrl(feature.img)} className="w-full object-cover object-center" style={{aspectRatio: "1 / 1"}} />
                             </Grid.Col>
                             <Grid.Col span={8}>
                                 <div>
-                                    <div className="p-1">
+                                    <div className="p-1" >
                                         <div className="font-semibold text-sm">{feature.title}</div>
                                         <div className="text-xs">{feature.description}</div>
                                     </div>
                                 </div>
                                 <div className="flex justify-end">
-                                    <ActionIcon variant="transparent" onClick={(event) => console.log('Clicked')}>
+                                    <ActionIcon variant="transparent" onClick={(event) => openDeleteConfirmationModal(feature.id)}>
                                         <Trash />
                                     </ActionIcon>
-                                    <ActionIcon aria-label="Edit" variant="transparent"
-                                                onClick={(event) => editFeature(feature)}>
+                                    <ActionIcon aria-label="Edit" variant="transparent" onClick={(event) => editFeature(feature)}>
                                         <Pencil />
                                     </ActionIcon>
                                 </div>
                             </Grid.Col>
                         </Grid>
                     </Card>
-                </Grid.Col>,
+                </Grid.Col>
             )
         }
         <Grid.Col span={6} className="h-24">
-            <div className="w-full h-full flex items-center border-dashed border-2 justify-center pointer"
-                 onClick={() => setOpenFeatureModal(true)}>
+            <div className="w-full h-full flex items-center border-dashed border-2 justify-center pointer" onClick={() => showFeatureModal()}>
                 <div className="flex font-semibold text-sm"><span>{<CirclePlus />}</span>Add Feature</div>
             </div>
         </Grid.Col>

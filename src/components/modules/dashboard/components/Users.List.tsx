@@ -1,55 +1,68 @@
 import { useEffect, useState } from "react";
-import { Tabs } from '@mantine/core';
-import { Eye } from 'tabler-icons-react';
+import { ActionIcon, Button, Tabs } from '@mantine/core'
+import { Eye, Pencil } from 'tabler-icons-react'
 import { TableLayout } from "../common/Table";
 import { TabsLayout } from "../common/Tabs";
-import { GetAllUsers } from "../../../../API/Users/GetAllUsers";
+import { GetAllUsers, GetAllUsersByStatus } from '../../../../API/Users/GetAllUsers'
+import { ExpTable } from '../../../common/ExpTable'
+import moment from 'moment'
+import { useNavigate } from 'react-router-dom'
 
 
 export const Userslist = () => {
+    const [users,setUsers] = useState([] as any);
+
     const tabs = [
         { label: "All", value: "all" },
         { label: "Active", value: "active" },
         { label: "Inactive", value: "inactive" },
         { label: "Blocked", value: "blocked" }
+    ];
+    const navigate= useNavigate();
+
+    const ActionsCol = (props:any)=>{
+        return (
+            <div className="flex justify-center gap-xs">
+                <ActionIcon
+                    variant="light"
+                    onClick={() => navigate(`/users/${props.id}`)}
+                >
+                    <Eye size={20} />
+                </ActionIcon>
+                <ActionIcon
+                    variant="light"
+                    onClick={() => navigate(`/users/${props.id}/edit`)}
+                >
+                    <Pencil size={20} />
+                </ActionIcon>
+            </div>
+        )
+    }
+
+
+    const headers = [
+        { label: '', name:'img', width: '5%', align:'center', type: 'image'},
+        { label: 'Profile', name:'fullname', width: '35%',},
+        { label: 'Occupation', name:'occupation', width: '15%'},
+        { label: 'Joined Date', name:'createdAt', width: '10%'},
+        { label: 'Status', name:'status', type:'badge', width: '10%', align: 'center'},
+        { label: 'Actions', name:'actions',width:'15%', align: 'center',type: 'action', actionCol: ActionsCol},
     ]
 
-    const cols = [
-        "profile",
-        "occupation",
-        "joineddate",
-        "status",
-        "actionsIcon",
-    ]
-    const tabledata = [
-        {
-            profile: "Jane Doe",
-            occupation: "Developer",
-            joineddate: "jan 12, 2024",
-            status: "Active",
-            actionsIcon: <Eye />
-        }
-    ]
-
-    const colheader = [
-        "Profile",
-        "Occupation",
-        "Joined Date",
-        "Status",
-        "Action",
-    ]
-
-    const GetUsersList = async () => {
-        const res = await GetAllUsers();
-        console.log(res);
+    const loadData = async () => {
+        const res:any = await GetAllUsersByStatus(activeTab ?? 'all');
+        setUsers(res.data.map((user:any) => ({
+            ...user,
+            createdAt: moment(user.createdAt).format('MMM DD, YYYY')
+        })));
     }
 
     const [activeTab, setActiveTab] = useState<string | null>('all');
     const [data, setData] = useState([]);
 
     useEffect(() => {
-        GetUsersList();
-    }, [])
+        loadData();
+    }, [activeTab])
 
     return (
         <div>
@@ -59,19 +72,19 @@ export const Userslist = () => {
                     <TabsLayout tabsList={tabs} />
 
                     <Tabs.Panel value="all" className="py-md">
-                        <TableLayout tabledata={tabledata} cols={cols} colheader={colheader} />
+                        <ExpTable data={users} headers={headers} />
                     </Tabs.Panel>
 
                     <Tabs.Panel value="active" className="py-md">
-                        <TableLayout tabledata={tabledata} cols={cols} colheader={colheader} />
+                        <ExpTable data={users} headers={headers} />
                     </Tabs.Panel>
 
                     <Tabs.Panel value="inactive" className="py-md">
-                        <TableLayout tabledata={tabledata} cols={cols} colheader={colheader} />
+                        <ExpTable data={users} headers={headers} />
                     </Tabs.Panel>
 
                     <Tabs.Panel value="blocked" className="py-md">
-                        <TableLayout tabledata={tabledata} cols={cols} colheader={colheader} />
+                        <ExpTable data={users} headers={headers} />
                     </Tabs.Panel>
                 </Tabs>
             </div>

@@ -1,4 +1,4 @@
-import { AppShell, Burger, Group, Skeleton, Text } from '@mantine/core';
+import { AppShell, Avatar, Burger, Group, Menu, Skeleton, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks';
 import { DashboardStats } from '../components/modules/dashboard/DashboardStats';
 import { DashboardSidebar } from '../components/modules/dashboard/DashboardSidebar';
@@ -8,10 +8,21 @@ import { Routes, Route } from 'react-router';
 import { WebDetails } from '../components/modules/dashboard/components/Web.Details';
 import { Complaints } from '../components/modules/dashboard/components/Complaints.list';
 import { Queries } from '../components/modules/dashboard/components/Queries.list';
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from '../store/auth/actions'
+import { useNavigate } from 'react-router-dom'
 
 export function DashboardLayout() {
   const [opened, { toggle }] = useDisclosure();
 
+  const user = useSelector((state:any)=> state.authReducer.user);
+  const dispatch:any = useDispatch();
+  const navigate = useNavigate();
+
+  const logoutUser = ()=>{
+    dispatch(logout());
+    navigate("/");
+  }
   return (
     <AppShell
       layout="alt"
@@ -20,9 +31,30 @@ export function DashboardLayout() {
       padding="md"
     >
       <AppShell.Header>
-        <Group h="100%" px="md">
+        <Group h="100%" wrap={'nowrap'} px="md"  align={'center'}>
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <div className="logo">Lg</div>
+          <div className={'flex justify-between w-full'}>
+            Welcome {user.fullname ?? ''},
+            <Menu shadow="md" width={200}>
+              <Menu.Target>
+               <Avatar>US</Avatar>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Label>Profile</Menu.Label>
+                <Menu.Item>
+                  Settings
+                </Menu.Item>
+                <Menu.Divider />
+
+                <Menu.Item
+                    onClick={logoutUser}
+                >
+                  Logout
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </div>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">

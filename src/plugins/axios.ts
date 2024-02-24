@@ -3,15 +3,17 @@ import {
     BASE_URL,
 } from '../config/baseURLs'
 import  store  from '../store/store'
+import { isAuthenticated } from '../utils/helpers/checkIfAuthenticated'
+import { getToken } from '../utils/helpers/tokenStorage.helper'
 // import { logoutUser } from '../store/modules/auth/actions'
 
 const baseAxios: AxiosInstance = axios.create()
 
 baseAxios.defaults.baseURL = BASE_URL;
 
-// if (isAuthenticated()) {
-//     baseAxios.defaults.headers.common.Authorization = `Bearer ${getToken()}`
-// }
+if (isAuthenticated()) {
+    baseAxios.defaults.headers.common.Authorization = `Bearer ${getToken()}`
+}
 
 // Add a request interceptor
 baseAxios.interceptors.request.use(
@@ -36,10 +38,6 @@ baseAxios.interceptors.response.use(
     }, // function(response)
     function (error) {
         const errorVal = error?.response?.data?.error
-        // errorNotification({
-        //     title: errorVal?.name ?? 'Error',
-        //     message: errorVal?.message ?? 'Action could not be completed',
-        // })
 
         // if ([403, 401].includes(error?.response?.status)) {
         if ([401].includes(error?.response?.status)) {

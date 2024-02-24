@@ -1,9 +1,10 @@
 import { LOGOUT_USER, SET_TOKEN, SET_USER } from "./actionTypes"
+import { getToken, getUser } from '../../utils/helpers/tokenStorage.helper'
 
 const initialState = {
-    user: {},
+    user: getUser(),
     isAuthenticated: false,
-    token: null
+    token: getToken()
 }
 
 export const authReducer = (state = initialState, action: { type: string, payload: any }) => {
