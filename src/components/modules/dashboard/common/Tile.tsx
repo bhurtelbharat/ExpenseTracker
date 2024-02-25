@@ -1,7 +1,7 @@
 export const Tile = (props: any)=>{
     const {title, description, date} = props;
     return <div className="flex items-center py-xs">
-        <div className="flex-grow px-md">
+        <div className="flex-grow px-sm">
             <div>{title}</div>
             <div className="font-semibold">{description}</div>
         </div>

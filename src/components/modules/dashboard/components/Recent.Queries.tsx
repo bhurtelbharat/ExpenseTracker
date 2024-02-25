@@ -19,8 +19,8 @@ export const RecentQueries = () => {
         }
     ]
     return (
-        <div className="border border-current border-solid">
-            <div className="flex justify-between items-ends px-md">
+        <div className="border border-current border-solid py-xs mt-sm">
+            <div className="flex justify-between items-ends px-sm">
                 <div className="font-bold">Recent Queries</div>
                 <div className="text-orange-500">View All</div>
             </div>

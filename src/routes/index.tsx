@@ -9,7 +9,7 @@ import { useEffect } from 'react';
 import { getTokenFromStorage } from '../utils/helpers/token.helper';
 
 export const AppRoutes = () => {
-    const isAuthenticated = !!useSelector(
+    const isAuthenticated = useSelector(
         (state: any) => state.authReducer.isAuthenticated,
     ) || getTokenFromStorage();
 

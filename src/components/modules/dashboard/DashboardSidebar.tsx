@@ -18,13 +18,13 @@ export const DashboardSidebar = () => {
   ]
 
   const items = data.map((item, index) => (
-    <NavLink className='font-semibold' to={item.path} key={item.label} end={item.label === 'Dashboard'}>
-      <div className={'flex items-center rounded-lg py-xs px-sm'}>
+    <NavLink className='mt-xs font-semibold w-full' to={item.path} key={item.label} end={item.label === 'Dashboard'}>
+      <div className={'flex items-center rounded-sm py-xs px-sm'}>
         {item.icon}
         <div className="ml-xs">{item.label}</div>
       </div>
     </NavLink>
   ));
 
-  return <Box w={220}>{items}</Box>
+  return <Box  mt={'sm'} className={'w-full'}>{items}</Box>
 }

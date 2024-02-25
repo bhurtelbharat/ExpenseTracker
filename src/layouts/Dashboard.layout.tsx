@@ -11,6 +11,7 @@ import { Queries } from '../components/modules/dashboard/components/Queries.list
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/auth/actions'
 import { useNavigate } from 'react-router-dom'
+import { NotificationIcon } from '../components/common/NotificationIcon'
 
 export function DashboardLayout() {
   const [opened, { toggle }] = useDisclosure();
@@ -33,27 +34,30 @@ export function DashboardLayout() {
       <AppShell.Header>
         <Group h="100%" wrap={'nowrap'} px="md"  align={'center'}>
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
-          <div className={'flex justify-between w-full'}>
-            Welcome {user.fullname ?? ''},
-            <Menu shadow="md" width={200}>
-              <Menu.Target>
-               <Avatar>US</Avatar>
-              </Menu.Target>
+          <div className={'flex justify-between w-full items-center'}>
+            Welcome {user?.fullname ?? ''},
+           <div className="flex items-center">
+             <NotificationIcon/>
+             <Menu shadow="md" width={200}>
+               <Menu.Target>
+                 <Avatar>US</Avatar>
+               </Menu.Target>
 
-              <Menu.Dropdown>
-                <Menu.Label>Profile</Menu.Label>
-                <Menu.Item>
-                  Settings
-                </Menu.Item>
-                <Menu.Divider />
+               <Menu.Dropdown>
+                 <Menu.Label>Profile</Menu.Label>
+                 <Menu.Item>
+                   Settings
+                 </Menu.Item>
+                 <Menu.Divider />
 
-                <Menu.Item
-                    onClick={logoutUser}
-                >
-                  Logout
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+                 <Menu.Item
+                     onClick={logoutUser}
+                 >
+                   Logout
+                 </Menu.Item>
+               </Menu.Dropdown>
+             </Menu>
+           </div>
           </div>
         </Group>
       </AppShell.Header>

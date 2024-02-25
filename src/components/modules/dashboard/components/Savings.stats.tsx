@@ -7,7 +7,7 @@ export const SavingsStats = () => {
     const [newqueries, setnewQueries]=useState(25);
     const [complaints, setcomplaints]=useState(17000);
 
-    return <Grid className="py-md">
+    return <Grid className="pb-md">
         <Grid.Col span={3}>
             <div className="text-gray-400">Total Users</div>
             <div className="text-md font-bold">{totalusers}</div>

@@ -12,7 +12,7 @@ export const ChartStats = () => {
     ];
 
     return <div>
-        <div className="py-md font-bold">New Signups in 6 months</div>
+        <div className="pb-md font-bold">New Signups in 6 months</div>
         <BarChart
             h={300}
             data={data}
