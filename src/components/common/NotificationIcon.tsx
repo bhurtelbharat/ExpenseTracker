@@ -15,7 +15,7 @@ export const NotificationIcon = () => {
 
   useEffect(() => {
     // const socket = io(`ws://localhost:3030`, { transports: ['websocket'] });
-    const socket = io(`ws://localhost:3030`, { transports: ['websocket'] });
+    const socket = io(`ws://192.168.43.7:3030`, { transports: ['websocket'] });
 
     // Listen for notification events
 
