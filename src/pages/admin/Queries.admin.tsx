@@ -1,9 +1,9 @@
-import { Tabs } from "@mantine/core"
-import { TableLayout } from "../common/Table"
+import { Tabs } from "@mantine/core";
+import { TableLayout } from "../../components/modules/dashboard/common/Table";
+import { TabsLayout } from "../../components/modules/dashboard/common/Tabs";
 import { useState } from "react";
-import { TabsLayout } from "../common/Tabs";
 
-export const Complaints=()=>{
+export const Queries =()=>{
     const [activeTab, setActiveTab] = useState<string | null>('unacknowledged');
     const [data, setData] = useState([]);
 
@@ -13,30 +13,30 @@ export const Complaints=()=>{
     ]
 
     const cols = [
-        "complaint",
-        "profile",
-        "joineddate",
+        "user",
+        "message",
+        "createddate",
         "status"
     ]
     const tabledata = [
         {
-            complaint:"My profile is stuck at validation",
-            profile: "Jane Doe",
-            joineddate: "jan 12, 2024",
-            status: "Unacknowledged"
+            user: "Jane Doe",
+            message:"My profile is stuck at validation",
+            createddate: "jan 12, 2024",
+            status: "Unacknowledged",
         },
         {
-            complaint:"My profile is stuck at validation",
-            profile: "Jane Doe",
-            joineddate: "jan 12, 2024",
+            user: "Jane Doe",
+            message:"My profile is stuck at validation",
+            createddate: "jan 12, 2024",
             status: "Acknowledged"
         }
     ]
 
     const colheader = [
-        "Complaint",
-        "Profile",
-        "Joined Date",
+        "User",
+        "Message",
+        "Created Date",
         "Status"
     ]
 
@@ -56,5 +56,4 @@ export const Complaints=()=>{
         </Tabs>
     </div>
 </div>
-
 }

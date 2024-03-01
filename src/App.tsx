@@ -9,7 +9,7 @@ import '@mantine/dates/styles.css'
 import store from "./store/store";
 import { Provider } from "react-redux";
 import { MainContainer } from "./hoc/main";
-import { Navbar } from './utils/NavBar'
+import { NavBarLanding } from './components/modules/landing/partials/NavBarLanding'
 function App() {
 
   return (

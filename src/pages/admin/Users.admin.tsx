@@ -1,16 +1,16 @@
 import { useEffect, useState } from "react";
 import { ActionIcon, Button, LoadingOverlay, Tabs } from '@mantine/core'
 import { Eye, Pencil } from 'tabler-icons-react'
-import { TableLayout } from "../common/Table";
-import { TabsLayout } from "../common/Tabs";
-import { GetAllUsers, GetAllUsersByStatus } from '../../../../API/Users/GetAllUsers'
-import { ExpTable } from '../../../common/ExpTable'
+import { TableLayout } from "../../components/modules/dashboard/common/Table";
+import { TabsLayout } from "../../components/modules/dashboard/common/Tabs";
+import { GetAllUsers, GetAllUsersByStatus } from '../../API/Users/GetAllUsers'
+import { ExpTable } from '../../components/common/ExpTable'
 import moment from 'moment'
 import { useNavigate } from 'react-router-dom'
-import { errorNotification } from "../../../../utils/helpers/notifications";
+import { errorNotification } from "../../utils/helpers/notifications";
 
 
-export const Userslist = () => {
+export const UsersAdmin = () => {
     const [users,setUsers] = useState([] as any);
     const [loading,setLoading] = useState(false);
     const ActionsCol = (props:any)=>{

@@ -9,18 +9,17 @@ import { pushNotification } from '../../store/notifications/actions';
 export const NotificationIcon = () => {
   const [opened, setOpened] = useState(false);
   const [unseenNotificationsCount, setUnseenNotificationsCount] = useState(0);
-  const notifications = useSelector((state:any)=> state.notificationReducer.notifications);
+  const notifications = useSelector((state: any) => state.notificationReducer.notifications);
   const dispatch = useDispatch();
 
 
   useEffect(() => {
-    // const socket = io(`ws://localhost:3030`, { transports: ['websocket'] });
-    const socket = io(`ws://192.168.43.7:3030`, { transports: ['websocket'] });
+    const socket = io(`ws://localhost:3030`, { transports: ['websocket'] });
+    // const socket = io(`wss://expense.krafters.dev`, { transports: ['websocket'] });
 
     // Listen for notification events
 
     socket.on('notification', (message: any) => {
-      console.log(message);
       dispatch(pushNotification(message));
       successNotification({
         title: message?.title ?? '',
@@ -85,7 +84,7 @@ export const NotificationIcon = () => {
             paddingTop: '8px', // Add padding to separate from previous item
           }}
         >
-          <Menu.Item onClick={()=>console.log('see more')} className="text-center">
+          <Menu.Item onClick={() => console.log('see more')} className="text-center">
             See More
           </Menu.Item>
         </div>

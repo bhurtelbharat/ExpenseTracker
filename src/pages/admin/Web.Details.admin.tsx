@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { Tabs, Grid, TextInput, Input } from '@mantine/core';
-import { TabsLayout } from "../common/Tabs";
-import { CardLayout } from "../common/Card";
-import { Features } from "./FeaturesLayout";
-import { Testimonials } from "./Testimonials";
+import { TabsLayout } from "../../components/modules/dashboard/common/Tabs";
+import { CardLayout } from "../../components/modules/dashboard/common/Card";
+import { Features } from "../../components/modules/dashboard/components/FeaturesLayout";
+import { Testimonials } from "../../components/modules/dashboard/components/Testimonials";
 
-export const WebDetails = () => {
+export const WebDetailsAdmin = () => {
     const tabs = [
         { label: "Landing Screens", value: "landingscreens" },
         { label: "Features", value: "features" },

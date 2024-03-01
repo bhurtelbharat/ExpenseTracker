@@ -1,7 +1,8 @@
-import { APIAuthenticateuser } from "../../API/Authorization/Authentication"
+import { APIAuthenticateGoogleSignin, APIAuthenticateuser } from '../../API/Authorization/Authentication'
 import baseAxios from "../../plugins/axios"
 import { setTokenToLocalStorage, setUserToLocalStorage } from "../../utils/helpers/token.helper"
 import { SET_TOKEN, SET_USER, SET_AUTHENTICATED, LOGOUT_USER } from './actionTypes'
+import { errorNotification } from '../../utils/helpers/notifications'
 
 export const setUser = (data:any)=>{
      return {
@@ -56,4 +57,30 @@ export const logout =()=>{
         type: LOGOUT_USER
     }
 }
+
+export const authenticateUserUsingGoogle =
+    (token: string) => async (dispatch: any) => {
+        try {
+            const res: any = await APIAuthenticateGoogleSignin({
+                token: token,
+            })
+            if (res.token) {
+                dispatch(setToken(res.data.accessToken));
+                dispatch(setUser(res.data.user));
+                // dispatch(setIsAuthenticated(true));
+                setTokenToLocalStorage(res.data.accessToken)
+                setAuthorizationHeader(res.data.accessToken)
+                setUserToLocalStorage(res.data.user)
+            } else {
+                dispatch(logout())
+                errorNotification({
+                    title: 'Error',
+                    message: res.message ?? 'Authentication error',
+                })
+            }
+        } catch (e: any) {
+            return e
+        }
+    }
+
 

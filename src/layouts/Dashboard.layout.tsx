@@ -1,13 +1,13 @@
 import { AppShell, Avatar, Burger, Group, Menu, Skeleton, Text } from '@mantine/core'
 import { useDisclosure } from '@mantine/hooks';
-import { DashboardStats } from '../components/modules/dashboard/DashboardStats';
+import { DashboardStatsAdmin } from '../pages/admin/DashboardStats.admin';
 import { DashboardSidebar } from '../components/modules/dashboard/DashboardSidebar';
-import { Userslist } from '../components/modules/dashboard/components/Users.List';
+import { UsersAdmin } from '../pages/admin/Users.admin';
 import logo from "../assets/Logo.svg"
 import { Routes, Route } from 'react-router';
-import { WebDetails } from '../components/modules/dashboard/components/Web.Details';
-import { Complaints } from '../components/modules/dashboard/components/Complaints.list';
-import { Queries } from '../components/modules/dashboard/components/Queries.list';
+import { WebDetailsAdmin } from '../pages/admin/Web.Details.admin';
+import { Complaints } from '../pages/admin/Complaints.admin';
+import { Queries } from '../pages/admin/Queries.admin';
 import { useDispatch, useSelector } from 'react-redux'
 import { logout } from '../store/auth/actions'
 import { useNavigate } from 'react-router-dom'
@@ -70,9 +70,9 @@ export function DashboardLayout() {
       </AppShell.Navbar>
       <AppShell.Main>
         <Routes>
-          <Route path="" element={<DashboardStats />} />
-          <Route path="/users" element={<Userslist />} />
-          <Route path="/webdetails" element={<WebDetails/>} />
+          <Route path="" element={<DashboardStatsAdmin />} />
+          <Route path="/users" element={<UsersAdmin />} />
+          <Route path="/webdetails" element={<WebDetailsAdmin/>} />
           <Route path="/complaints" element={<Complaints/>} />
           <Route path="/queries" element={<Queries/>} />
         </Routes>
